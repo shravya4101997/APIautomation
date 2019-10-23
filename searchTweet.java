@@ -3,6 +3,7 @@ import static io.restassured.RestAssured.given;
 import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
 public class searchTweet {
@@ -22,7 +23,15 @@ public void search_tweet() {
 	String response=res.asString();
 	System.out.println(response);
 	
+	JsonPath js1= new JsonPath(response);
+	int count = js1.get("statuses.size()");
+    System.out.println(count);
 	
-}
+	//to get user name
+	for(int i=0; i<count; i++) {
+	JsonPath js= new JsonPath(response);
+	String str= js.get("statuses["+i+"].user.name").toString();
+	System.out.println(str);
+}}
 
 }
